@@ -1,0 +1,23 @@
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules
+
+# Frontend build output
+dist
+dist-ssr
+*.local
+
+# Rust / Tauri build output
+src-tauri/target
+src-tauri/gen
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+/freebuff-sites-build/

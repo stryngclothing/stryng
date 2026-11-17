@@ -1,0 +1,210 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI Variable Text", "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --animate-pop: pop 180ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.94);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  html,
+  body {
+    /* The native window is transparent: the rounded card is the widget. */
+    background: transparent;
+    margin: 0;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: #e4e4e7;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* Desktop app feel: no accidental text selection while dragging. */
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+  }
+
+  input {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  ::selection {
+    background: rgb(52 211 153 / 0.25);
+  }
+}
+
+/* Root wrapper: opacity slides, the app never paints a background itself. */
+.app-root {
+  height: 100%;
+  width: 100%;
+  transition: opacity 160ms ease;
+}
+
+/* Slim, unobtrusive scrollbar for the target list. */
+.scroll-slim {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(255 255 255 / 0.14) transparent;
+}
+
+.scroll-slim::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scroll-slim::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-slim::-webkit-scrollbar-thumb {
+  background: rgb(255 255 255 / 0.12);
+  border-radius: 999px;
+}
+
+.scroll-slim::-webkit-scrollbar-thumb:hover {
+  background: rgb(255 255 255 / 0.22);
+}
+
+/* ---- Checkbox ---------------------------------------------------------- */
+
+.checkbox {
+  display: grid;
+  place-items: center;
+  height: 18px;
+  width: 18px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  background: rgb(255 255 255 / 0.03);
+  color: #04140d;
+  outline: none;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 140ms ease;
+}
+
+.checkbox:hover {
+  border-color: rgb(52 211 153 / 0.55);
+  background: rgb(52 211 153 / 0.08);
+}
+
+.checkbox:active {
+  transform: scale(0.9);
+}
+
+.checkbox:focus-visible {
+  box-shadow: 0 0 0 3px rgb(52 211 153 / 0.2);
+}
+
+.checkbox[data-checked="true"] {
+  background: #10b981;
+  border-color: #10b981;
+  animation: var(--animate-pop);
+}
+
+.checkbox-mark path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  transition: stroke-dashoffset 220ms ease-out 40ms;
+}
+
+.checkbox[data-checked="true"] .checkbox-mark path {
+  stroke-dashoffset: 0;
+}
+
+/* ---- Strikethrough ----------------------------------------------------- */
+
+.strike {
+  position: relative;
+  display: inline;
+}
+
+.strike::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  opacity: 0.6;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 260ms cubic-bezier(0.65, 0, 0.35, 1);
+  pointer-events: none;
+}
+
+[data-done="true"] .strike::after {
+  transform: scaleX(1);
+}
+
+/* ---- Opacity slider ---------------------------------------------------- */
+
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.12);
+  outline: none;
+  cursor: pointer;
+}
+
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 13px;
+  width: 13px;
+  border-radius: 999px;
+  background: #34d399;
+  border: 2px solid #052e20;
+  box-shadow: 0 0 0 1px rgb(52 211 153 / 0.4);
+  transition: transform 120ms ease;
+}
+
+.range::-webkit-slider-thumb:hover {
+  transform: scale(1.12);
+}
+
+.range::-moz-range-thumb {
+  height: 13px;
+  width: 13px;
+  border: 2px solid #052e20;
+  border-radius: 999px;
+  background: #34d399;
+}
+
+/* ---- Motion preferences ------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

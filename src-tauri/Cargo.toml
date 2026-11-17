@@ -1,0 +1,26 @@
+[package]
+name = "ssc-cgl-targets"
+version = "1.0.0"
+description = "Always-on-top SSC CGL daily target tracker"
+authors = ["SSC CGL Targets"]
+edition = "2021"
+rust-version = "1.77.2"
+
+[lib]
+# `_lib` suffix keeps the lib name unique from the binary (needed on Windows).
+name = "ssc_cgl_targets_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+
+# Small + fast release build: this is a widget, it should stay tiny.
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true
